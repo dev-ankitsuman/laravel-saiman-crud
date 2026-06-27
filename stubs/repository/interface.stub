@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use {{ModelNamespace}}\{{ModelName}};
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
+interface {{RepositoryInterface}}
+{
+    /**
+     * Paginate all records.
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator;
+
+    /**
+     * Find a record by ID or throw.
+     */
+    public function findOrFail(int $id): {{ModelName}};
+
+    /**
+     * Create a new record.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function create(array $data): {{ModelName}};
+
+    /**
+     * Update an existing record.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function update({{ModelName}} ${{modelVariable}}, array $data): {{ModelName}};
+
+    /**
+     * Delete a record.
+     */
+    public function delete({{ModelName}} ${{modelVariable}}): bool;
+}

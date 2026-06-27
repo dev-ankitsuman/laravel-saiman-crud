@@ -1,0 +1,57 @@
+@extends('{{layout}}')
+
+@section('title', 'Edit {{ModelName}}')
+
+@section('content')
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+    {{-- Breadcrumb --}}
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2">
+            <li>
+                <a href="{{ route('{{model_snake_plural}}.index') }}"
+                   class="text-sm font-medium text-gray-500 hover:text-gray-700">{{ModelNamePlural}}</a>
+            </li>
+            <li>
+                <span class="text-gray-400 mx-2">/</span>
+                <a href="{{ route('{{model_snake_plural}}.show', ${{modelVariable}}) }}"
+                   class="text-sm font-medium text-gray-500 hover:text-gray-700">
+                    #{{ ${{modelVariable}}->id }}
+                </a>
+            </li>
+            <li>
+                <span class="text-gray-400 mx-2">/</span>
+                <span class="text-sm font-medium text-gray-900">Edit</span>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+        <div class="px-4 py-6 sm:p-8">
+            <h2 class="text-base font-semibold leading-7 text-gray-900 mb-6">
+                Edit {{ModelName}} #{{ ${{modelVariable}}->id }}
+            </h2>
+
+            <form action="{{ route('{{model_snake_plural}}.update', ${{modelVariable}}) }}"
+                  method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+{{editInputs}}
+
+                <div class="flex justify-end gap-x-3 mt-8 pt-6 border-t border-gray-200">
+                    <a href="{{ route('{{model_snake_plural}}.show', ${{modelVariable}}) }}"
+                       class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+@endsection

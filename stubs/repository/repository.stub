@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use {{ModelNamespace}}\{{ModelName}};
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
+class {{RepositoryName}} implements {{RepositoryInterface}}
+{
+    public function __construct(
+        private readonly {{ModelName}} $model,
+    ) {}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->model->newQuery()->latest()->paginate($perPage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOrFail(int $id): {{ModelName}}
+    {
+        return $this->model->newQuery()->findOrFail($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create(array $data): {{ModelName}}
+    {
+        return $this->model->newQuery()->create($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update({{ModelName}} ${{modelVariable}}, array $data): {{ModelName}}
+    {
+        ${{modelVariable}}->update($data);
+
+        return ${{modelVariable}}->refresh();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete({{ModelName}} ${{modelVariable}}): bool
+    {
+        return (bool) ${{modelVariable}}->delete();
+    }
+}

@@ -1,0 +1,51 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+
+    paths:
+        - src
+
+    excludePaths:
+        - vendor
+        - tests
+
+    treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        -
+            message: '#.*mixed.*#'
+            path: src/Generators/BaseGenerator.php
+            reportUnmatched: false
+
+        -
+            message: '#Function base_path not found#'
+            reportUnmatched: false
+
+        -
+            message: '#Function app_path not found#'
+            reportUnmatched: false
+
+        -
+            message: '#Function config_path not found#'
+            reportUnmatched: false
+
+        -
+            message: '#Function database_path not found#'
+            reportUnmatched: false
+
+        -
+            message: '#Function resource_path not found#'
+            reportUnmatched: false
+
+        -
+            message: '#Function now not found#'
+            reportUnmatched: false
+
+        -
+            message: '#Function config not found#'
+            reportUnmatched: false
+
+    parallel:
+        maximumNumberOfProcesses: 2

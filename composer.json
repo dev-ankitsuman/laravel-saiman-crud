@@ -1,0 +1,53 @@
+{
+    "name": "saiman/laravel-saiman-crud",
+    "description": "A modern Laravel CRUD generator for Laravel 12 & 13.",
+    "keywords": ["laravel", "crud", "saiman", "laravel12", "laravel13"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ankit Suman",
+            "role": "Sr Software Engineer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^12.0 || ^13.0",
+        "illuminate/filesystem": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.18",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Saiman\\SaimanCrud\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Saiman\\SaimanCrud\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Saiman\\SaimanCrud\\SaimanCrudServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -1,0 +1,66 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use App\Http\Controllers\Controller;
+use {{ModelNamespace}}\{{ModelName}};
+use {{RequestNamespace}}\{{StoreRequestName}};
+use {{RequestNamespace}}\{{UpdateRequestName}};
+use {{ResourceNamespace}}\{{ResourceName}};
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
+class {{ControllerName}} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): AnonymousResourceCollection
+    {
+        ${{modelVariablePlural}} = {{ModelName}}::latest()->paginate({{paginationCount}});
+
+        return {{ResourceName}}::collection(${{modelVariablePlural}});
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{StoreRequestName}} $request): {{ResourceName}}
+    {
+        ${{modelVariable}} = {{ModelName}}::create($request->validated());
+
+        return new {{ResourceName}}(${{modelVariable}});
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show({{ModelName}} ${{modelVariable}}): {{ResourceName}}
+    {
+        return new {{ResourceName}}(${{modelVariable}});
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{UpdateRequestName}} $request, {{ModelName}} ${{modelVariable}}): {{ResourceName}}
+    {
+        ${{modelVariable}}->update($request->validated());
+
+        return new {{ResourceName}}(${{modelVariable}});
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{ModelName}} ${{modelVariable}}): JsonResponse
+    {
+        ${{modelVariable}}->delete();
+
+        return response()->json([
+            'message' => '{{ModelName}} deleted successfully.',
+        ], 200);
+    }
+}

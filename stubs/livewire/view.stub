@@ -1,0 +1,85 @@
+<div>
+    {{-- Flash Notification --}}
+    @if(session('notify'))
+        <div class="mb-4 rounded-md bg-green-50 p-4">
+            <p class="text-sm text-green-800">{{ session('notify.message') }}</p>
+        </div>
+    @endif
+
+    {{-- Header --}}
+    <div class="sm:flex sm:items-center sm:justify-between mb-6">
+        <h1 class="text-xl font-semibold text-gray-900">{{ModelNamePlural}}</h1>
+        <button wire:click="openCreate"
+                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+            + New {{ModelName}}
+        </button>
+    </div>
+
+    {{-- Table --}}
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+                <tr>
+{{tableHeaders}}
+                    <th scope="col" class="relative py-3.5 pr-4">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+                @forelse(${{modelVariablePlural}} as $item)
+                    <tr class="hover:bg-gray-50">
+{{tableCells}}
+                        <td class="py-4 pr-4 text-right text-sm">
+                            <button wire:click="openEdit({{ $item->id }})"
+                                    class="text-amber-600 hover:text-amber-900 mr-3">Edit</button>
+                            <button wire:click="delete({{ $item->id }})"
+                                    wire:confirm="Delete this record?"
+                                    class="text-red-600 hover:text-red-900">Delete</button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="100%" class="py-10 text-center text-sm text-gray-500">
+                            No {{ModelNamePlural}} found.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Pagination --}}
+    <div class="mt-4">
+        {{ ${{modelVariablePlural}}->links() }}
+    </div>
+
+    {{-- Modal --}}
+    @if($showModal)
+        <div class="fixed inset-0 z-50 overflow-y-auto" aria-modal="true">
+            <div class="flex min-h-screen items-center justify-center p-4">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75" wire:click="$set('showModal', false)"></div>
+                <div class="relative bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        {{ $isEditing ? 'Edit' : 'Create' }} {{ModelName}}
+                    </h3>
+
+                    <form wire:submit="save">
+{{createInputs}}
+                        <div class="flex justify-end gap-x-3 mt-6">
+                            <button type="button"
+                                    wire:click="$set('showModal', false)"
+                                    class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                                {{ $isEditing ? 'Save Changes' : 'Create' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>

@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/**
+ * @property-read int $id
+ * @property-read \Illuminate\Support\Carbon $created_at
+ * @property-read \Illuminate\Support\Carbon $updated_at
+ */
+class {{ResourceName}} extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+{{resourceFields}}
+        ];
+    }
+}

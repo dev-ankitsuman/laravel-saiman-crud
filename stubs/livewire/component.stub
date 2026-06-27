@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use {{ModelNamespace}}\{{ModelName}};
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Livewire\Attributes\Rule;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class {{LivewireComponent}} extends Component
+{
+    use WithPagination;
+
+    /** @var bool */
+    public bool $showModal = false;
+
+    /** @var bool */
+    public bool $isEditing = false;
+
+    /** @var int|null */
+    public ?int $editingId = null;
+
+    /** @var string */
+    public string $search = '';
+
+    /**
+     * Open the create modal.
+     */
+    public function openCreate(): void
+    {
+        $this->reset();
+        $this->showModal = true;
+        $this->isEditing = false;
+    }
+
+    /**
+     * Open the edit modal for the given record.
+     */
+    public function openEdit(int $id): void
+    {
+        $record          = {{ModelName}}::findOrFail($id);
+        $this->editingId = $id;
+        $this->isEditing = true;
+        $this->showModal = true;
+
+        // Fill form with current values
+        $this->fill($record->toArray());
+    }
+
+    /**
+     * Save the current form state.
+     */
+    public function save(): void
+    {
+        $validated = $this->validate();
+
+        if ($this->isEditing && $this->editingId !== null) {
+            {{ModelName}}::findOrFail($this->editingId)->update($validated);
+            $this->dispatch('notify', type: 'success', message: '{{ModelName}} updated.');
+        } else {
+            {{ModelName}}::create($validated);
+            $this->dispatch('notify', type: 'success', message: '{{ModelName}} created.');
+        }
+
+        $this->showModal = false;
+        $this->reset();
+        $this->resetPage();
+    }
+
+    /**
+     * Delete a record by ID.
+     */
+    public function delete(int $id): void
+    {
+        {{ModelName}}::findOrFail($id)->delete();
+        $this->dispatch('notify', type: 'success', message: '{{ModelName}} deleted.');
+        $this->resetPage();
+    }
+
+    /**
+     * Render the component.
+     */
+    public function render(): View
+    {
+        ${{modelVariablePlural}} = {{ModelName}}::query()
+            ->latest()
+            ->paginate(15);
+
+        return view('livewire.{{viewFolder}}.manager', compact('{{modelVariablePlural}}'));
+    }
+}

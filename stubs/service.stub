@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use {{ModelNamespace}}\{{ModelName}};
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
+class {{ServiceName}}
+{
+    /**
+     * Paginate all {{ModelNamePlural}}.
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator
+    {
+        return {{ModelName}}::latest()->paginate($perPage);
+    }
+
+    /**
+     * Find a {{ModelName}} by its primary key.
+     */
+    public function findOrFail(int $id): {{ModelName}}
+    {
+        return {{ModelName}}::findOrFail($id);
+    }
+
+    /**
+     * Create a new {{ModelName}}.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function create(array $data): {{ModelName}}
+    {
+        return {{ModelName}}::create($data);
+    }
+
+    /**
+     * Update an existing {{ModelName}}.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function update({{ModelName}} ${{modelVariable}}, array $data): {{ModelName}}
+    {
+        ${{modelVariable}}->update($data);
+
+        return ${{modelVariable}}->refresh();
+    }
+
+    /**
+     * Delete a {{ModelName}}.
+     */
+    public function delete({{ModelName}} ${{modelVariable}}): bool
+    {
+        return (bool) ${{modelVariable}}->delete();
+    }
+}

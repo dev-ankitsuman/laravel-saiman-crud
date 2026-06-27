@@ -1,0 +1,68 @@
+@extends('{{layout}}')
+
+@section('title', '{{ModelName}} Details')
+
+@section('content')
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+    {{-- Breadcrumb --}}
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2">
+            <li>
+                <a href="{{ route('{{model_snake_plural}}.index') }}"
+                   class="text-sm font-medium text-gray-500 hover:text-gray-700">{{ModelNamePlural}}</a>
+            </li>
+            <li>
+                <span class="text-gray-400 mx-2">/</span>
+                <span class="text-sm font-medium text-gray-900">#{{ ${{modelVariable}}->id }}</span>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-hidden">
+
+        {{-- Actions Header --}}
+        <div class="flex items-center justify-between px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-base font-semibold text-gray-900">{{ModelName}} #{{ ${{modelVariable}}->id }}</h3>
+            <div class="flex items-center gap-x-3">
+                <a href="{{ route('{{model_snake_plural}}.edit', ${{modelVariable}}) }}"
+                   class="rounded-md bg-amber-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-amber-400">
+                    Edit
+                </a>
+                <form action="{{ route('{{model_snake_plural}}.destroy', ${{modelVariable}}) }}"
+                      method="POST"
+                      onsubmit="return confirm('Are you sure you want to delete this {{ModelName}}?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-500">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        {{-- Detail Fields --}}
+        <dl class="divide-y divide-gray-200">
+            <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">ID</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ ${{modelVariable}}->id }}</dd>
+            </div>
+{{showFields}}
+            <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50">
+                <dt class="text-sm font-medium text-gray-500">Created At</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    {{ ${{modelVariable}}->created_at?->format('Y-m-d H:i:s') }}
+                </dd>
+            </div>
+            <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Updated At</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    {{ ${{modelVariable}}->updated_at?->format('Y-m-d H:i:s') }}
+                </dd>
+            </div>
+        </dl>
+    </div>
+
+</div>
+@endsection

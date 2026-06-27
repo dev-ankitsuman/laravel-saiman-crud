@@ -1,0 +1,7 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{Namespace}}\{{ControllerName}};
+
+// {{ModelName}} API Routes
+Route::apiResource('{{model_snake_plural}}', {{ControllerName}}::class);
