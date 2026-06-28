@@ -485,20 +485,13 @@ final class FieldParser
         $required = $nullable ? '' : ' required';
 
         return <<<HTML
-        <div class="mb-4">
-            <label for="{$name}" class="block text-sm font-medium text-gray-700 mb-1">{$label}</label>
-            <input
-                type="{$inputType}"
-                name="{$name}"
-                id="{$name}"
-                value="{$oldValue}"
-                placeholder="{$placeholder}"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('{$name}') border-red-500 @enderror"{$required}
-            >
-            @error('{$name}')
-                <p class="mt-1 text-sm text-red-600">{{ \$message }}</p>
-            @enderror
-        </div>
+                <div class="form-group">
+                    <label for="{$name}">{$label}</label>
+                    <input type="{$inputType}" name="{$name}" id="{$name}" value="{$oldValue}" placeholder="{$placeholder}" class="@error('{$name}') error @enderror"{$required}>
+                    @error('{$name}')
+                        <div class="error-text">{{ \$message }}</div>
+                    @enderror
+                </div>
         HTML;
     }
 
@@ -522,19 +515,13 @@ final class FieldParser
         $required = $nullable ? '' : ' required';
 
         return <<<HTML
-        <div class="mb-4">
-            <label for="{$name}" class="block text-sm font-medium text-gray-700 mb-1">{$label}</label>
-            <textarea
-                name="{$name}"
-                id="{$name}"
-                rows="4"
-                placeholder="{$placeholder}"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('{$name}') border-red-500 @enderror"{$required}
-            >{$oldValue}</textarea>
-            @error('{$name}')
-                <p class="mt-1 text-sm text-red-600">{{ \$message }}</p>
-            @enderror
-        </div>
+                <div class="form-group">
+                    <label for="{$name}">{$label}</label>
+                    <textarea name="{$name}" id="{$name}" rows="4" placeholder="{$placeholder}" class="@error('{$name}') error @enderror"{$required}>{$oldValue}</textarea>
+                    @error('{$name}')
+                        <div class="error-text">{{ \$message }}</div>
+                    @enderror
+                </div>
         HTML;
     }
 
@@ -553,23 +540,16 @@ final class FieldParser
             : "@checked(old('{$name}'))";
 
         return <<<HTML
-        <div class="mb-4">
-            <div class="flex items-center">
-                <input type="hidden" name="{$name}" value="0">
-                <input
-                    type="checkbox"
-                    name="{$name}"
-                    id="{$name}"
-                    value="1"
-                    {$checked}
-                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                >
-                <label for="{$name}" class="ml-2 block text-sm text-gray-900">{$label}</label>
-            </div>
-            @error('{$name}')
-                <p class="mt-1 text-sm text-red-600">{{ \$message }}</p>
-            @enderror
-        </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="hidden" name="{$name}" value="0">
+                        <input type="checkbox" name="{$name}" id="{$name}" value="1" {$checked}>
+                        <label for="{$name}">{$label}</label>
+                    </div>
+                    @error('{$name}')
+                        <div class="error-text">{{ \$message }}</div>
+                    @enderror
+                </div>
         HTML;
     }
 
@@ -586,19 +566,15 @@ final class FieldParser
         $required = $nullable ? '' : ' required';
 
         return <<<HTML
-        <div class="mb-4">
-            <label for="{$name}" class="block text-sm font-medium text-gray-700 mb-1">{$label}</label>
-            <select
-                name="{$name}"
-                id="{$name}"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('{$name}') border-red-500 @enderror"{$required}
-            >
-                <option value="">-- Select {$label} --</option>
-            </select>
-            @error('{$name}')
-                <p class="mt-1 text-sm text-red-600">{{ \$message }}</p>
-            @enderror
-        </div>
+                <div class="form-group">
+                    <label for="{$name}">{$label}</label>
+                    <select name="{$name}" id="{$name}" class="@error('{$name}') error @enderror"{$required}>
+                        <option value="">-- Select {$label} --</option>
+                    </select>
+                    @error('{$name}')
+                        <div class="error-text">{{ \$message }}</div>
+                    @enderror
+                </div>
         HTML;
     }
 
@@ -621,16 +597,16 @@ final class FieldParser
                 in_array($type, ['boolean', 'bool'], true)       => "{{ \${$variable}->{$name} ? 'Yes' : 'No' }}",
                 $type === 'date'                                 => "{{ \${$variable}->{$name}?->format('Y-m-d') ?? '—' }}",
                 in_array($type, ['datetime', 'timestamp'], true) => "{{ \${$variable}->{$name}?->format('Y-m-d H:i:s') ?? '—' }}",
-                $type === 'url'                                  => "<a href=\"{{ \${$variable}->{$name} }}\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">{{ \${$variable}->{$name} }}</a>",
+                $type === 'url'                                  => "<a href=\"{{ \${$variable}->{$name} }}\" target=\"_blank\" style=\"color: #4f46e5;\">{{ \${$variable}->{$name} }}</a>",
                 default                                          => "{{ \${$variable}->{$name} ?? '—' }}",
             };
 
             $rows[] = <<<HTML
-                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 even:bg-gray-50">
-                    <dt class="text-sm font-medium text-gray-500">{$label}</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{$value}</dd>
-                </div>
-                HTML;
+        <div class="detail-row">
+            <div class="detail-label">{$label}</div>
+            <div class="detail-value">{$value}</div>
+        </div>
+        HTML;
         }
 
         return implode(PHP_EOL, $rows);

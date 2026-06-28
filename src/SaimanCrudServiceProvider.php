@@ -6,6 +6,7 @@ namespace Saiman\SaimanCrud;
 
 use Illuminate\Support\ServiceProvider;
 use Saiman\SaimanCrud\Commands\MakeCrudCommand;
+use Saiman\SaimanCrud\Commands\RevertCrudCommand;
 
 final class SaimanCrudServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ final class SaimanCrudServiceProvider extends ServiceProvider
     {
         $this->commands([
             MakeCrudCommand::class,
+            RevertCrudCommand::class,
         ]);
     }
 
@@ -52,6 +54,7 @@ final class SaimanCrudServiceProvider extends ServiceProvider
     {
         return [
             MakeCrudCommand::class,
+            RevertCrudCommand::class,
         ];
     }
 }

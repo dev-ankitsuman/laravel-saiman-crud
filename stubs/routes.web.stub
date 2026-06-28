@@ -1,7 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\Route;
-use {{Namespace}}\{{ControllerName}};
-
-// {{ModelName}} Routes
-Route::resource('{{model_snake_plural}}', {{ControllerName}}::class);
+// CRUD-GENERATED:START {{ModelName}}
+Route::resource('{{model_snake_plural}}', \{{Namespace}}\{{ControllerName}}::class);
+// CRUD-GENERATED:END {{ModelName}}
